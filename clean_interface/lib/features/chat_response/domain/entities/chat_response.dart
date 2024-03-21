@@ -16,4 +16,14 @@ class ChatResponse {
 
   @override
   int get hashCode => role.hashCode ^ content.hashCode;
+
+  ChatResponse copyWith({
+    String? role,
+    String? content,
+  }) {
+    return ChatResponse(
+      role: role ?? this.role,
+      content: content ?? this.content,
+    );
+  }
 }
