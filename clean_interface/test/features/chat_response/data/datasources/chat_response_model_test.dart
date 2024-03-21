@@ -1,4 +1,4 @@
-import 'package:clean_interface/features/chat_response/data/datasources/chat_response_model.dart';
+import 'package:clean_interface/features/chat_response/data/models/chat_response_model.dart';
 import 'package:clean_interface/features/chat_response/domain/entities/chat_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 
