@@ -1,9 +1,9 @@
 import '../../../../core/errors/failure.dart';
 import '../../../../core/types.dart';
-import '../entities/message.dart';
+import '../entities/chat_response.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class ChatResponseRepository {
-  Future<Either<Failure, Message?>> getMessage();
-  Future<Either<Failure, MessageList>> getMessages();
+  Future<Either<Failure, ChatResponse?>> getChatResponse(String message);
+  Future<Either<Failure, MessageList>> getChatResponses();
 }

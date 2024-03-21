@@ -1,14 +1,14 @@
-class Message {
+class ChatResponse {
   final String role;
   final String content;
 
-  Message({
+  ChatResponse({
     required this.role,
     required this.content,
   });
 
   @override
-  bool operator ==(covariant Message other) {
+  bool operator ==(covariant ChatResponse other) {
     if (identical(this, other)) return true;
 
     return other.role == role && other.content == content;
