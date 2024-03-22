@@ -27,7 +27,7 @@ void main() {
       when(() => mockChatResponseRepository.getChatResponse(any()))
           .thenAnswer((_) async => Right(aChatResponse));
 
-      final result = await usecase(Params(message: message));
+      final result = await usecase(message);
 
       expect(result, Right(aChatResponse));
       verify(() => mockChatResponseRepository.getChatResponse(message))

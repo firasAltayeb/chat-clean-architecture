@@ -6,7 +6,7 @@ import 'package:clean_interface/features/chat_response/domain/entities/chat_resp
 
 import '../repositories/chat_response_repository.dart';
 
-class GetChatResponse implements UseCase<ChatResponse?, Params> {
+class GetChatResponse implements UseCase<ChatResponse, String> {
   final ChatResponseRepository repository;
 
   GetChatResponse({
@@ -14,25 +14,7 @@ class GetChatResponse implements UseCase<ChatResponse?, Params> {
   });
 
   @override
-  Future<Either<Failure, ChatResponse?>> call(Params params) async {
-    return await repository.getChatResponse(params.message);
+  Future<Either<Failure, ChatResponse>> call(String message) async {
+    return await repository.getChatResponse(message);
   }
-}
-
-class Params {
-  final String message;
-
-  Params({
-    required this.message,
-  });
-
-  @override
-  bool operator ==(covariant Params other) {
-    if (identical(this, other)) return true;
-
-    return other.message == message;
-  }
-
-  @override
-  int get hashCode => message.hashCode;
 }
