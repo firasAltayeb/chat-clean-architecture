@@ -1,10 +1,11 @@
-import 'package:clean_interface/core/errors/failure.dart';
-import 'package:clean_interface/core/platform/network_info.dart';
-import 'package:clean_interface/core/utils/types.dart';
-import 'package:clean_interface/features/chat_response/data/datasources/chat_response_local_data_source.dart';
-import 'package:clean_interface/features/chat_response/data/datasources/chat_response_remote_data_source.dart';
-import 'package:clean_interface/features/chat_response/domain/entities/chat_response.dart';
-import 'package:clean_interface/features/chat_response/domain/repositories/chat_response_repository.dart';
+import '../../../../core/errors/failure.dart';
+import '../../../../core/errors/messages.dart';
+import '../../../../core/platform/network_info.dart';
+import '../../../../core/utils/types.dart';
+import '../datasources/chat_response_local_data_source.dart';
+import '../datasources/chat_response_remote_data_source.dart';
+import '../../domain/entities/chat_response.dart';
+import '../../domain/repositories/chat_response_repository.dart';
 import 'package:dartz/dartz.dart';
 
 class ChatResponseRepositoryImpl implements ChatResponseRepository {
@@ -19,14 +20,19 @@ class ChatResponseRepositoryImpl implements ChatResponseRepository {
   });
 
   @override
-  Future<Either<Failure, ChatResponse>> getChatResponse(String message) {
-    // TODO: implement getChatResponse
-    throw UnimplementedError();
+  Future<Either<Failure, ChatResponse>> getChatResponse(String message) async {
+    // networkInfo.isConnected;
+    try {
+      final remoteResponse = await remoteDataSource.getChatResponse(message);
+      await localDataSource.cacheChatResponse(remoteResponse);
+      return Right(remoteResponse);
+    } catch (e) {
+      return const Left(Failure(ErrorMessage.failToObtainResponse));
+    }
   }
 
   @override
   Future<Either<Failure, ChatResponseList>> getChatResponseList() {
-    // TODO: implement getChatResponseList
     throw UnimplementedError();
   }
 }

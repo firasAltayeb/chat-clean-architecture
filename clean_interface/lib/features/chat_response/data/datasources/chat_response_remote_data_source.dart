@@ -1,5 +1,5 @@
-import '../../domain/entities/chat_response.dart';
+import 'package:clean_interface/features/chat_response/data/models/chat_response_model.dart';
 
 abstract class ChatResposeRemoteDataSource {
-  Future<ChatResponse> getChatResponse(String message);
+  Future<ChatResponseModel> getChatResponse(String message);
 }
