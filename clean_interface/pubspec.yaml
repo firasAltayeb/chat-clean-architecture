@@ -22,6 +22,7 @@ dependencies:
   equatable: ^2.0.5
   dartz: ^0.10.1
   # Remote API
+  internet_connection_checker: ^1.0.0+1
   http: ^1.2.1
   # Local cache
   hive_flutter: ^1.1.0
