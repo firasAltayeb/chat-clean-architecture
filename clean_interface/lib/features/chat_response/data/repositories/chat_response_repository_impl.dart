@@ -21,18 +21,35 @@ class ChatResponseRepositoryImpl implements ChatResponseRepository {
 
   @override
   Future<Either<Failure, ChatResponse>> getChatResponse(String message) async {
-    // networkInfo.isConnected;
-    try {
-      final remoteResponse = await remoteDataSource.getChatResponse(message);
-      await localDataSource.cacheChatResponse(remoteResponse);
-      return Right(remoteResponse);
-    } catch (e) {
-      return const Left(Failure(ErrorMessage.failToObtainResponse));
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteResponse = await remoteDataSource.getChatResponse(message);
+        await localDataSource.cacheChatResponse(remoteResponse);
+        return Right(remoteResponse);
+      } catch (e) {
+        return const Left(
+          Failure(ErrorMessage.getChatResponseError),
+        );
+      }
+    } else {
+      return Right(
+        ChatResponse(
+          role: "assistant",
+          content: ErrorMessage.noInternet,
+        ),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, ChatResponseList>> getChatResponseList() {
-    throw UnimplementedError();
+  Future<Either<Failure, ChatResponseList>> getChatResponseList() async {
+    try {
+      final localResponse = await localDataSource.getChatResponseList();
+      return Right(localResponse);
+    } catch (e) {
+      return const Left(
+        Failure(ErrorMessage.getChatResponseListError),
+      );
+    }
   }
 }

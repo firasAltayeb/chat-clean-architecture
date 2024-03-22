@@ -1,6 +1,7 @@
 import 'package:clean_interface/core/errors/failure.dart';
 import 'package:clean_interface/core/errors/messages.dart';
 import 'package:clean_interface/core/platform/network_info.dart';
+import 'package:clean_interface/core/utils/types.dart';
 import 'package:clean_interface/features/chat_response/data/datasources/chat_response_local_data_source.dart';
 import 'package:clean_interface/features/chat_response/data/datasources/chat_response_remote_data_source.dart';
 import 'package:clean_interface/features/chat_response/data/models/chat_response_model.dart';
@@ -39,6 +40,7 @@ void main() {
 
   final chatResponseModel = ChatResponseModel(role: 'user', content: 'test');
   final ChatResponse chatResponse = chatResponseModel;
+  final ChatResponseList chatResponseList = [chatResponse];
   const message = 'test';
 
   group('device is online', () {
@@ -61,7 +63,7 @@ void main() {
     );
 
     test(
-      "should return server failure when call to remote is unsuccessul",
+      "should return failure when call to remote is unsuccessul",
       () async {
         when(() => mockRemoteDataSource.getChatResponse(any()))
             .thenThrow(Exception());
@@ -70,7 +72,7 @@ void main() {
         verify(() => mockRemoteDataSource.getChatResponse(message)).called(1);
         verifyNever(
             () => mockLocalDataSource.cacheChatResponse(chatResponseModel));
-        expect(result, left(const Failure(ErrorMessage.failToObtainResponse)));
+        expect(result, left(const Failure(ErrorMessage.getChatResponseError)));
       },
     );
 
@@ -88,9 +90,32 @@ void main() {
     );
   });
 
-  group('device is offline', () {
-    setUp(() {
-      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-    });
-  });
+  test(
+    "should return cached data when data is present",
+    () async {
+      when(() => mockLocalDataSource.getChatResponseList())
+          .thenAnswer((_) async => chatResponseList);
+
+      final result = await repository.getChatResponseList();
+
+      verify(() => mockLocalDataSource.getChatResponseList()).called(1);
+      expect(result, Right(chatResponseList));
+    },
+  );
+
+  test(
+    "should return failure when data is not present",
+    () async {
+      when(() => mockLocalDataSource.getChatResponseList())
+          .thenThrow(Exception());
+
+      final result = await repository.getChatResponseList();
+
+      verify(() => mockLocalDataSource.getChatResponseList()).called(1);
+      expect(
+        result,
+        left(const Failure(ErrorMessage.getChatResponseListError)),
+      );
+    },
+  );
 }
