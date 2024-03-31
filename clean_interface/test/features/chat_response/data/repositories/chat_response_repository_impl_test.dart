@@ -40,7 +40,7 @@ void main() {
 
   final chatResponseModel = ChatResponseModel(role: 'user', content: 'test');
   final ChatResponse chatResponse = chatResponseModel;
-  final ChatResponseList chatResponseList = [chatResponse];
+  final ChatResponseModels chatResponseList = [chatResponseModel];
   const message = 'test';
 
   group('device is online', () {
@@ -55,6 +55,7 @@ void main() {
       () async {
         when(() => mockRemoteDataSource.getChatResponse(any()))
             .thenAnswer((_) async => chatResponseModel);
+
         final result = await repository.getChatResponse(message);
 
         verify(() => mockRemoteDataSource.getChatResponse(message)).called(1);
@@ -67,6 +68,7 @@ void main() {
       () async {
         when(() => mockRemoteDataSource.getChatResponse(any()))
             .thenThrow(Exception());
+
         final result = await repository.getChatResponse(message);
 
         verify(() => mockRemoteDataSource.getChatResponse(message)).called(1);
@@ -81,6 +83,7 @@ void main() {
       () async {
         when(() => mockRemoteDataSource.getChatResponse(any()))
             .thenAnswer((_) async => chatResponseModel);
+
         await repository.getChatResponse(message);
 
         verify(() => mockRemoteDataSource.getChatResponse(message)).called(1);
