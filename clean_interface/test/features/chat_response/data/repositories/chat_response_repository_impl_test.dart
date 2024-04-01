@@ -4,9 +4,9 @@ import 'package:clean_interface/core/platform/network_info.dart';
 import 'package:clean_interface/core/utils/types.dart';
 import 'package:clean_interface/features/chat_response/data/datasources/chat_response_local_data_source.dart';
 import 'package:clean_interface/features/chat_response/data/datasources/chat_response_remote_data_source.dart';
-import 'package:clean_interface/features/chat_response/data/models/chat_response_model.dart';
+import 'package:clean_interface/features/chat_response/data/models/chat_message_model.dart';
 import 'package:clean_interface/features/chat_response/data/repositories/chat_response_repository_impl.dart';
-import 'package:clean_interface/features/chat_response/domain/entities/chat_response.dart';
+import 'package:clean_interface/features/chat_response/domain/entities/chat_message.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -16,7 +16,7 @@ class MockRemoteDataSource extends Mock
 
 class MockLocalDataSource extends Mock implements ChatResposeLocalDataSource {}
 
-class MockChatResponseModel extends Mock implements ChatResponseModel {}
+class MockChatResponseModel extends Mock implements ChatMessageModel {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
@@ -38,9 +38,9 @@ void main() {
     );
   });
 
-  final chatResponseModel = ChatResponseModel(role: 'user', content: 'test');
-  final ChatResponse chatResponse = chatResponseModel;
-  final ChatResponseModels chatResponseList = [chatResponseModel];
+  final chatResponseModel = ChatMessageModel(role: 'user', content: 'test');
+  final ChatMessage chatResponse = chatResponseModel;
+  final ChatMessageModelLst chatResponseList = [chatResponseModel];
   const message = 'test';
 
   group('device is online', () {

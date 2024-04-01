@@ -4,7 +4,7 @@ import '../../../../core/platform/network_info.dart';
 import '../../../../core/utils/types.dart';
 import '../datasources/chat_response_local_data_source.dart';
 import '../datasources/chat_response_remote_data_source.dart';
-import '../../domain/entities/chat_response.dart';
+import '../../domain/entities/chat_message.dart';
 import '../../domain/repositories/chat_response_repository.dart';
 import 'package:dartz/dartz.dart';
 
@@ -20,7 +20,7 @@ class ChatResponseRepositoryImpl implements ChatResponseRepository {
   });
 
   @override
-  Future<Either<Failure, ChatResponse>> getChatResponse(String message) async {
+  Future<Either<Failure, ChatMessage>> getChatResponse(String message) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteResponse = await remoteDataSource.getChatResponse(message);
@@ -32,8 +32,8 @@ class ChatResponseRepositoryImpl implements ChatResponseRepository {
         );
       }
     } else {
-      return Right(
-        ChatResponse(
+      return const Right(
+        ChatMessage(
           role: "assistant",
           content: ErrorMessage.noInternet,
         ),
@@ -42,7 +42,7 @@ class ChatResponseRepositoryImpl implements ChatResponseRepository {
   }
 
   @override
-  Future<Either<Failure, ChatResponseList>> getChatResponseList() async {
+  Future<Either<Failure, ChatMessageLst>> getChatResponseList() async {
     try {
       final localResponse = await localDataSource.getChatResponseList();
       return Right(localResponse);

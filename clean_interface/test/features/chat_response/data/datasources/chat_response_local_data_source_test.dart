@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:clean_interface/core/utils/hive_box.dart';
 import 'package:clean_interface/features/chat_response/data/datasources/chat_response_local_data_source.dart';
-import 'package:clean_interface/features/chat_response/data/models/chat_response_model.dart';
+import 'package:clean_interface/features/chat_response/data/models/chat_message_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -21,15 +21,15 @@ void main() {
     );
   });
 
-  final chatResponseList = jsonDecode(fixture('chat_response_list.json'))
-      .map((i) => ChatResponseModel.fromMap(i))
+  final chatResponseList = jsonDecode(fixture('cached_chat_messages.json'))
+      .map((i) => ChatMessageModel.fromMap(i))
       .toList();
 
   test(
     'should return ChatResponseListJson from Hive when available',
     () async {
       when(() => mockHiveBox.getChatResponseListJson())
-          .thenReturn(fixture('chat_response_list.json'));
+          .thenReturn(fixture('cached_chat_messages.json'));
       // act
       final result = await dataSource.getChatResponseList();
       // assert
@@ -38,7 +38,7 @@ void main() {
     },
   );
 
-  final chatResponseModel = ChatResponseModel(role: 'user', content: 'test');
+  final chatResponseModel = ChatMessageModel(role: 'user', content: 'test');
   final chatResponses = [chatResponseModel];
 
   test(

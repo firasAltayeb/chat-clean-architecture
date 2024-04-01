@@ -1,14 +1,14 @@
-class ChatResponse {
+class ChatMessage {
   final String role;
   final String content;
 
-  ChatResponse({
+  const ChatMessage({
     required this.role,
     required this.content,
   });
 
   @override
-  bool operator ==(covariant ChatResponse other) {
+  bool operator ==(covariant ChatMessage other) {
     if (identical(this, other)) return true;
 
     return other.role == role && other.content == content;
@@ -17,11 +17,11 @@ class ChatResponse {
   @override
   int get hashCode => role.hashCode ^ content.hashCode;
 
-  ChatResponse copyWith({
+  ChatMessage copyWith({
     String? role,
     String? content,
   }) {
-    return ChatResponse(
+    return ChatMessage(
       role: role ?? this.role,
       content: content ?? this.content,
     );

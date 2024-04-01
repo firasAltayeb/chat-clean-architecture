@@ -5,7 +5,7 @@ import '../../../../core/usecases/usecase.dart';
 import '../repositories/chat_response_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class GetChatResponseList implements UseCase<ChatResponseList, NoParams> {
+class GetChatResponseList implements UseCase<ChatMessageLst, NoParams> {
   final ChatResponseRepository repository;
 
   GetChatResponseList({
@@ -13,7 +13,7 @@ class GetChatResponseList implements UseCase<ChatResponseList, NoParams> {
   });
 
   @override
-  Future<Either<Failure, ChatResponseList>> call(NoParams params) async {
+  Future<Either<Failure, ChatMessageLst>> call(NoParams params) async {
     return await repository.getChatResponseList();
   }
 }

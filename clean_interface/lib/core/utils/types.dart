@@ -1,6 +1,13 @@
-import '../../features/chat_response/data/models/chat_response_model.dart';
-import '../../features/chat_response/domain/entities/chat_response.dart';
+import '../../features/chat_response/data/models/chat_choice_model.dart';
+import '../../features/chat_response/domain/entities/chat_choice.dart';
 
-typedef ChatResponseModels = List<ChatResponseModel>;
+import '../../features/chat_response/data/models/chat_message_model.dart';
+import '../../features/chat_response/domain/entities/chat_message.dart';
 
-typedef ChatResponseList = List<ChatResponse>;
+typedef ChatMessageModelLst = List<ChatMessageModel>;
+
+typedef ChatMessageLst = List<ChatMessage>;
+
+typedef ChatChoiceModelLst = List<ChatChoiceModel>;
+
+typedef ChatChoiceLst = List<ChatChoice>;

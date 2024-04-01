@@ -1,5 +1,5 @@
 import 'package:clean_interface/core/usecases/no_params.dart';
-import 'package:clean_interface/features/chat_response/domain/entities/chat_response.dart';
+import 'package:clean_interface/features/chat_response/domain/entities/chat_message.dart';
 import 'package:clean_interface/features/chat_response/domain/repositories/chat_response_repository.dart';
 import 'package:clean_interface/features/chat_response/domain/usecases/get_chat_response_list.dart';
 import 'package:dartz/dartz.dart';
@@ -18,7 +18,7 @@ void main() {
     usecase = GetChatResponseList(repository: mockChatResponseRepository);
   });
 
-  final aChatResponseList = [ChatResponse(role: "user", content: "test")];
+  final aChatResponseList = [const ChatMessage(role: "user", content: "test")];
 
   test(
     "should get chat response list ",

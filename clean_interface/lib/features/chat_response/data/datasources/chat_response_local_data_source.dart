@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import '../../../../core/utils/hive_box.dart';
 import '../../../../core/utils/types.dart';
-import '../models/chat_response_model.dart';
+import '../models/chat_message_model.dart';
 
 abstract class ChatResposeLocalDataSource {
-  Future<ChatResponseModels> getChatResponseList();
-  Future<void> cacheChatResponse(ChatResponseModel chatResponse);
+  Future<ChatMessageModelLst> getChatResponseList();
+  Future<void> cacheChatResponse(ChatMessageModel chatResponse);
 }
 
 class ChatResposeLocalDataSourceImpl implements ChatResposeLocalDataSource {
@@ -17,21 +17,21 @@ class ChatResposeLocalDataSourceImpl implements ChatResposeLocalDataSource {
   });
 
   @override
-  Future<ChatResponseModels> getChatResponseList() {
+  Future<ChatMessageModelLst> getChatResponseList() {
     final jsonString = box.getChatResponseListJson();
     if (jsonString.isNotEmpty) {
       final jsonResponse = jsonDecode(jsonString) as List<dynamic>;
       final chatResponseList =
-          jsonResponse.map((i) => ChatResponseModel.fromMap(i)).toList();
+          jsonResponse.map((i) => ChatMessageModel.fromMap(i)).toList();
       return Future.value(chatResponseList);
     } else {
-      final ChatResponseModels temp = [];
+      final ChatMessageModelLst temp = [];
       return Future.value(temp);
     }
   }
 
   @override
-  Future<void> cacheChatResponse(ChatResponseModel chatResponse) async {
+  Future<void> cacheChatResponse(ChatMessageModel chatResponse) async {
     final cachedList = await getChatResponseList()
       ..add(chatResponse);
     final jsonString = jsonEncode(cachedList);
